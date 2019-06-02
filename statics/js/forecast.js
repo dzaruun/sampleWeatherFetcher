@@ -4,16 +4,18 @@ const request = require('request'),
            dataError = 'Unable to find location';
 
 const forecast = (latitude, longitude, callback) => {
-    const weatherUrl = `${weatherUrlBase}${latitude},${longitude}?units=si`;//&lang=ru`,
+    const weatherUrl = `${weatherUrlBase}${longitude},${latitude}?units=si`;//&lang=ru`,
       doAndExit = (err,data)=>{
           callback(err,data);
           return;
       }
     request({ url: weatherUrl, json: true }, (error, { body }) => { // see destructuring - response.body is expected and destructured
       error && doAndExit(connectionError);
+      //console.info('FULL FORECAST BODY:', body);
       body.error && doAndExit(dataError);
       let currently = body.currently;
-      callback(null, `${body.daily.data[0].summary} It is currently ${currently.temperature} °C out. There is a ${currently.precipProbability} % chance of rain.`);
+      let outputString = `${body.daily.data[0].summary}\nIt is currently ${currently.temperature} °C out.\nThere is a ${currently.precipProbability} % chance of rain.\n Wind speed is ${currently.windSpeed}`
+      callback(null, outputString);
     })
 }
 
