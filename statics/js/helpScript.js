@@ -1,0 +1,1 @@
+console.warn('Help script was picked up');

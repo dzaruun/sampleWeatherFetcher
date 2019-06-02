@@ -1,0 +1,1 @@
+console.info('Index script was picked up');
